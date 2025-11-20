@@ -11,7 +11,9 @@ COPY pom.xml .
 COPY src ./src
 
 # Compila el proyecto. Esto genera el JAR en /app/target/
-RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests
+RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests \
+    -Dproject.build.sourceEncoding=UTF-8 \
+    -Dproject.reporting.outputEncoding=UTF-8
 
 # --- Segunda fase: Ejecución ---
 # Usamos 'eclipse-temurin' con el JRE 21 (Alpine) para una imagen ligera y estable.
