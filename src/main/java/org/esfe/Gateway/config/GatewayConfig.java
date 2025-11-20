@@ -25,10 +25,24 @@ public class GatewayConfig {
         FilterRegistrationBean<JwtAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(jwtAuthenticationFilter);
 
-        // Aplicar filtro a todas las rutas excepto las públicas
-        registrationBean.addUrlPatterns("/api/*");
-        registrationBean.setOrder(1);
+        // ❌ ESTO ESTÁ MAL - aplica el filtro a TODAS las rutas /api/*
+        // registrationBean.addUrlPatterns("/api/*");
 
+        // ✅ MEJOR: excluir rutas públicas explícitamente
+        registrationBean.addUrlPatterns(
+                "/api/usuarios/*",
+                "/api/roles/*",
+                "/api/perfiles/*",
+                "/api/preferencias/*",
+                "/api/aceptaciones/*",
+                "/api/usuario-membresias/*",
+                "/api/documentoslegales/*",
+                "/api/membresias/*",
+                "/api/tiposdeporte/*"
+        );
+        // NO incluir /api/auth/* para que sea público
+
+        registrationBean.setOrder(1);
         return registrationBean;
     }
 
