@@ -99,8 +99,13 @@ public class ProxyController {
                 targetUrl += "?" + request.getQueryString();
             }
 
-            System.out.println("🔀 Proxy: " + request.getMethod() + " " + request.getRequestURI() +
-                    " -> " + serviceName + " (" + targetUrl + ")");
+            System.out.println("========================================");
+            System.out.println("🔀 PROXY REQUEST");
+            System.out.println("   Method: " + request.getMethod());
+            System.out.println("   Path: " + request.getRequestURI());
+            System.out.println("   Service: " + serviceName);
+            System.out.println("   Target URL: " + targetUrl);
+            System.out.println("========================================");
 
             // Copiar headers del request original
             HttpHeaders headers = new HttpHeaders();
