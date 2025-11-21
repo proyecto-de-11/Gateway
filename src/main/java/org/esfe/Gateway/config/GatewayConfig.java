@@ -10,6 +10,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class GatewayConfig {
@@ -19,17 +20,15 @@ public class GatewayConfig {
 
     /**
      * Registra el filtro JWT para validar tokens en rutas protegidas
+     * NOTA: NO incluir /api/auth/** para que sea publica
      */
     @Bean
     public FilterRegistrationBean<JwtAuthenticationFilter> jwtFilterRegistration() {
         FilterRegistrationBean<JwtAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(jwtAuthenticationFilter);
 
-        // ❌ ESTO ESTÁ MAL - aplica el filtro a TODAS las rutas /api/*
-        // registrationBean.addUrlPatterns("/api/*");
-
-        // ✅ MEJOR: excluir rutas públicas explícitamente
-        registrationBean.addUrlPatterns(
+        // Solo aplicar a rutas protegidas (NO incluir /api/auth/*)
+        registrationBean.setUrlPatterns(Arrays.asList(
                 "/api/usuarios/*",
                 "/api/roles/*",
                 "/api/perfiles/*",
@@ -39,15 +38,14 @@ public class GatewayConfig {
                 "/api/documentoslegales/*",
                 "/api/membresias/*",
                 "/api/tiposdeporte/*"
-        );
-        // NO incluir /api/auth/* para que sea público
-
+        ));
         registrationBean.setOrder(1);
+
         return registrationBean;
     }
 
     /**
-     * Configuración de CORS para permitir peticiones desde diferentes orígenes
+     * Configuracion de CORS para permitir peticiones desde diferentes origenes
      */
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilterRegistration() {
@@ -55,13 +53,8 @@ public class GatewayConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000",     // Frontend local
-                "http://localhost:8080",     // Gateway local
-                "https://*.onrender.com"     // Servicios en Render
-        ));
-        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowedOriginPatterns(List.of("*"));
+        config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
 

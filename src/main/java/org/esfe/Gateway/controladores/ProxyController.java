@@ -1,4 +1,4 @@
-package org.esfe.Gateway.controladores;
+/*package org.esfe.Gateway.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -16,6 +16,7 @@ import java.util.Map;
 /**
  * Controlador proxy que redirige requests a los microservicios correspondientes
  */
+/*
 @RestController
 public class ProxyController {
 
@@ -90,6 +91,7 @@ public class ProxyController {
     /**
      * Método genérico para proxy de requests a microservicios
      */
+/*
     private ResponseEntity<?> proxyRequest(String serviceName, HttpServletRequest request, Object body) {
         try {
             // Construir URL usando el nombre del servicio (Eureka lo resolverá)
@@ -144,3 +146,4 @@ public class ProxyController {
         }
     }
 }
+*/
